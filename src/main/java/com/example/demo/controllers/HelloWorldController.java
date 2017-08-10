@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.models.Adder;
+import com.example.demo.models.Whisperer;
+import com.example.demo.models.Yeller;
+
 @Controller
 @RequestMapping({"/", "/HelloWorld"})
 public class HelloWorldController {
@@ -23,17 +27,39 @@ public class HelloWorldController {
 		return "helloworld/index";
 	}
 	
-	@GetMapping("message")
-	public ModelAndView message(@RequestParam(required=false, defaultValue="«silence»") String message) {
-		ModelAndView mv = new ModelAndView("helloworld/message");
+	@GetMapping("message") //URL to which the form submits
+	public ModelAndView message(@RequestParam(required=false, defaultValue="«silence»") String submittedMessage) { //User submitted message
+		Yeller asdf = new Yeller(submittedMessage); //Waiting for instance of user submitted variable, sets equal to parameter from the user
+		String allCaps = asdf.caps(); //resulting loud words from yeller, insider variable is string with all uppercase
+		
+		ModelAndView mv = new ModelAndView("helloworld/message"); //This is the path src/main/resources/helloworld/message.html
+		mv.addObject("title", title);		
+		mv.addObject("message", allCaps);
+		return mv;
+	}
+	
+	//Create a class named Whisperer that makes Strings lower case
+	//Using the method below, create a method named "whisper" for a GetMapping that does essentially the same thing
+	//but uses Whisperer. This means that you should map a GET to the path "whisper"
+	//This means you should have a method named "whisper" that returns a ModelAndView
+	
+	@GetMapping("whisper")
+	public ModelAndView whisper(@RequestParam(required=false, defaultValue="«shhhhhh»") String whisper) {
+		Whisperer asdf = new Whisperer(whisper);
+		String alllow = asdf.lower();
+		
+		ModelAndView mv = new ModelAndView("helloworld/whisper");
 		mv.addObject("title", title);
-		mv.addObject("message", message);
+		mv.addObject("message", alllow);
 		return mv;
 	}
 	 
 	@PostMapping("adder")
 	public String addTwoNumbers(@RequestParam(name="left") int first, @RequestParam(name="right") double second, Model model) {
-		model.addAttribute("sum", first + second);
+		Adder adder = new Adder(first, second);
+		double result = adder.calculate();
+		
+		model.addAttribute("sum", result);
 		return "helloworld/sum-result";
 	}
 	
