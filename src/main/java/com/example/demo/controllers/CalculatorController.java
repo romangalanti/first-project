@@ -7,28 +7,47 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.models.Adder;
+import com.example.demo.models.Calculator;
 
 @Controller
 @RequestMapping("/calculate")
 public class CalculatorController {
-	// http://localhost:8080/math/adder POST
 	@PostMapping("calculator")
-	public String addTwoNumbers(@RequestParam(name = "left") int first, @RequestParam(name = "right") double second,
-			Model model) {
-		Adder adder = new Adder(first, second);
-		double result = adder.calculate();
-
-		model.addAttribute("sum", result);
+	public String TwoNumberCalculator(@RequestParam(name = "left") double first,
+			@RequestParam(name = "right") double second, Model model, String mathChoice) {
+		if (mathChoice.equals("add")) {
+			Calculator ADD = new Calculator(first, second);
+			double qwe = ADD.doTheAdd();
+			model.addAttribute("output", qwe);
+		} else if (mathChoice.equals("subtract")) {
+			Calculator SUBTRACT = new Calculator(first, second);
+			double ert = SUBTRACT.doTheSubtract();
+			model.addAttribute("output", ert);
+		} else if (mathChoice.equals("multiply")) {
+			Calculator MULTIPLY = new Calculator(first, second);
+			double tyu = MULTIPLY.doTheMultiply();
+			model.addAttribute("output", tyu);
+		} else if (mathChoice.equals("divide")) {
+			Calculator DIVIDE = new Calculator(first, second);
+			double iop = DIVIDE.doTheDivision();
+			model.addAttribute("output", iop);
+		} else if (mathChoice.equals("modulo")) {
+			Calculator MODULO = new Calculator(first, second);
+			double asd = MODULO.doTheModulo();
+			model.addAttribute("output", asd);
+		} else {
+			Calculator EXPONENT = new Calculator(first, second);
+			double vbn = EXPONENT.doTheExponent();
+			model.addAttribute("output", vbn);
+		}
 		return "math/calculate-again";
-
 	}
 
 	@GetMapping("calculator")
-	public String index() {
+	public String index(Model model) {
+		model.addAttribute("output", "please enter some numbers");
 		return "math/calculate-again";
 
 	}
 
-	
 }
