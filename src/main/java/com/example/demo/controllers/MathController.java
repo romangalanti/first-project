@@ -20,13 +20,13 @@ public class MathController {
 		double result = adder.calculate();
 
 		model.addAttribute("sum", result);
-		return "helloworld/sum-result";
+		return "math/sum-result";
 
 	}
 
 	@GetMapping("adder")
 	public String index() {
-		return "helloworld/tryagain";
+		return "math/tryagain";
 
 	}
 
