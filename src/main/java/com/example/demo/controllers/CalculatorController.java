@@ -43,9 +43,9 @@ public class CalculatorController {
 		return "math/calculate-again";
 	}
 
-	@GetMapping("calculator")
+	@GetMapping({"", "/calculator"})
 	public String index(Model model) {
-		model.addAttribute("output", "please enter some numbers");
+		model.addAttribute("output", "Please Enter Some Numbers");
 		return "math/calculate-again";
 
 	}
